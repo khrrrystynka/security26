@@ -1,52 +1,18 @@
-### 1. GET All items (Happy Path)
+### 1. GET All items (Show all)
 GET http://localhost:8080/api/v1/items
 Authorization: Basic admin admin
 Accept: application/json
 
 ###
 
-### 2. GET All items (Bad Credentials)
-GET http://localhost:8080/api/v1/items
-Authorization: Basic wrongadmin admin
-Accept: application/json
-
-###
-
-### 3. GET All items (Bad Credentials)
-GET http://localhost:8080/api/v1/items
-Accept: application/json
-
-###
-
-### 4. GET Item by ID = 1 (Happy Path)
+### 2. GET Item by ID = 1 (Read one)
 GET http://localhost:8080/api/v1/items/1
 Authorization: Basic admin admin
 Accept: application/json
 
 ###
 
-### 5. GET Item by ID = 3 (Happy Path)
-GET http://localhost:8080/api/v1/items/3
-Authorization: Basic admin admin
-Accept: application/json
-
-###
-
-### 6. GET Item by ID = 99 (Bad Credentials)
-GET http://localhost:8080/api/v1/items/99
-Authorization: Basic admin admin
-Accept: application/json
-
-###
-
-### 7. GET Item by ID = 2 (Bad Credentials)
-GET http://localhost:8080/api/v1/items/2
-Authorization: Basic admin wrongpassword
-Accept: application/json
-
-###
-
-### 8. POST Create new item (Bad Credentials)
+### 3. POST Create new item (Create one)
 POST http://localhost:8080/api/v1/items
 Authorization: Basic admin admin
 Content-Type: application/json
@@ -60,20 +26,21 @@ Accept: application/json
 
 ###
 
-### 9. POST Create new item (Bad Credentials)
-POST http://localhost:8080/api/v1/items
+### 4. PUT Update item with ID = 4 (Update one)
+PUT http://localhost:8080/api/v1/items/4
+Authorization: Basic admin admin
 Content-Type: application/json
 Accept: application/json
 
 {
-  "id": "5",
-  "name": "Cure Skin Hydrating Face Cream",
-  "description": "Deeply moisturizing daily cream."
+  "id": "4",
+  "name": "Cure Skin Clarifying Clay Mask (Updated)",
+  "description": "Updated purifying face mask description."
 }
 
 ###
 
-### 10. DELETE Item by ID = 1 (Bad Credentials)
-DELETE http://localhost:8080/api/v1/items/1
+### 5. DELETE Item by ID = 4 (Delete one)
+DELETE http://localhost:8080/api/v1/items/4
 Authorization: Basic admin admin
 Accept: application/json

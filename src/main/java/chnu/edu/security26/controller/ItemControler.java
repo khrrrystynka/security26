@@ -46,7 +46,21 @@ public class ItemControler {
         itemService.deleteItem(id);
     }
 
+    @GetMapping("hello/admin")
+    public String helloAdmin() {
+        return "Hello Admin!";
+    }
 
+    @GetMapping("hello/unknown")
+    public String helloUnknown() {
+        return "Hello Unknown!";
+    }
+
+    @GetMapping("/hello/user")
+    public String hello() { return "Hello!, user"; }
+
+    @GetMapping("/hello/man")
+    public String helloMan() { return "Hello, man!"; }
 
 
 
