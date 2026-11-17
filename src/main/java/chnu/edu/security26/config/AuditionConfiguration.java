@@ -14,8 +14,12 @@ import org.springframework.data.mongodb.config.EnableMongoAuditing;
  */
 @EnableMongoAuditing
 @Configuration
-public class AuditionConfiguraion {
+public class AuditionConfiguration {
 
     @Bean
-    public AuditorAware<String> auditorAware() {return new AuditorAwarelmpl(); }
+    public AuditorAware<String> auditorAware() {
+        return new AuditorAwareImpl();
+    }
+
+
 }

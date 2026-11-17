@@ -4,44 +4,70 @@ import chnu.edu.security26.model.Item;
 import chnu.edu.security26.repository.ItemRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
-
+@RequiredArgsConstructor
+@Log4j2
 public class ItemService {
+
     private final ItemRepository itemRepository;
 
-    public ItemService(ItemRepository itemRepository) {
-        this.itemRepository = itemRepository;
+    private List<Item> items = new ArrayList<>();
+
+    {
+        items.add(new Item("1", "name1", "description1"));
+        items.add(new Item("2", "name2", "description2"));
+        items.add(new Item("3", "name3", "description3"));
     }
 
     @PostConstruct
-    void init() {
+    void init(){
         itemRepository.deleteAll();
-        itemRepository.save(new Item("1", "Cure Skin AHA Exfoliating Toner", "Chemical exfoliating toner to remove dead cells and brighten skin tone."));
-        itemRepository.save(new Item("2", "Cure Skin Soothing Facial Serum", "Lightweight calming serum designed to reduce redness and irritation."));
-        itemRepository.save(new Item("3", "Cure Skin Mineral Sunscreen SPF 50", "Protective daily sunscreen offering broad-spectrum UV defense."));
+        items.forEach(this::createItem);
+
     }
 
     public List<Item> getAllItems() {
         return itemRepository.findAll();
     }
 
-    public Item createItem(Item item) {
+    public Item createItem(Item item){
         return itemRepository.save(item);
     }
 
-    public Item getItem(String id) {
+    public Item getItem(String id){
         return itemRepository.findById(id).orElse(null);
     }
 
-    public Item updateItem(Item item) {
-        return itemRepository.save(item);
+    public Item updateItem(Item item){
+        Item existing = itemRepository.findById(item.getId()).orElse(null);
+        if (existing != null) {
+            existing.setName(item.getName());
+            existing.setDescription(item.getDescription());
+            return itemRepository.save(existing);
+        }
+        return null;
     }
 
-    public void deleteItem(String id) {
+    public void deleteItem(String id){
+        String username = "";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null ||
+                !authentication.isAuthenticated() ||
+                authentication instanceof AnonymousAuthenticationToken) {
+            username = "unknown";
+        }
+        username = authentication.getName();
+        Item item = this.getItem(id);
+        log.info(item.toString() + " was deleted by " + username);
         itemRepository.deleteById(id);
     }
 }
