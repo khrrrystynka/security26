@@ -23,31 +23,33 @@ public class ItemControler {
     private final ItemService itemService;
 
     @GetMapping
-    public List<Item> getAll(String id) {
+    public List<Item> getAll(String id){
         return itemService.getAllItems();
     }
 
     @GetMapping("/{id}")
-    public Item getItem(@PathVariable String id) {
+    public Item getItem(@PathVariable String id){
         return itemService.getItem(id);
     }
 
     @PostMapping
-    public Item createItem(@RequestBody Item item) {
+    public Item createItem(@RequestBody Item item){
         return itemService.createItem(item);
     }
 
     @PutMapping
-    public Item updateItem(@RequestBody Item item) {
+    public Item updateItem(@RequestBody Item item){
         return itemService.updateItem(item);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteItem(@PathVariable String id) {
+    public   void deleteItem(@PathVariable String id){
         itemService.deleteItem(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+
+    //----------------------------------------------------
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("hello/admin")
     public String helloAdmin() {
         return "Hello Admin!";
@@ -58,16 +60,13 @@ public class ItemControler {
         return "Hello Unknown!";
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/hello/user")
     public String hello() { return "Hello!, user"; }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPERADMIN')")
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'SUPERADMIN')")
     @GetMapping("/hello/man")
     public String helloMan() { return "Hello, man!"; }
-
-
-
-
 
 }
